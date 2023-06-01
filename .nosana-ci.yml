@@ -1,5 +1,5 @@
 nosana:
-  description: 🔎 Python Tests
+  description: p Python Tests
 
 global:
   image: python:3.10
@@ -11,13 +11,15 @@ jobs:
       - python -m pip install --upgrade pip
       - pip install .[dev]
     artifacts:
-      - name: dependencies
+      - name: site-packages
 
   - name: Check CLI Entrypoint
     commands:
       - nucypher --help
     resources:
-      - name: dependencies
+      - name: site-packages
   - name: Check Python Entrypoint
     commands: 
       - python -c "import nucypher; print(nucypher.__version__)"
+    resources:
+      - name: site-packages
