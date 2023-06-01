@@ -1,0 +1,23 @@
+nosana:
+  description: Nosana Python Template
+
+global:
+  image: python:3.10
+
+jobs:
+  - name: Install dependencies
+    commands:
+      # Initialize
+      - python -m pip install --upgrade pip
+      - pip install .[dev]
+    artifacts:
+      - name: dependencies
+
+  - name: Check CLI Entrypoint
+    commands:
+      - nucypher --help
+    resources:
+      - name: dependencies
+  - name: Check Python Entrypoint
+    commands: 
+      - python -c "import nucypher; print(nucypher.__version__)"
