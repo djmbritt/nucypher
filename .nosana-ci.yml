@@ -11,7 +11,17 @@ jobs:
       - curl -sS https://sh.rustup.rs | sh -s -- -y
       - . "$HOME/.cargo/env"
       - pip install .[dev]
-      - python -m coverage run --data-file=unit_data -m pytest tests/unit
+      - 
+      - nucypher --help
+      - python -c "import nucypher; print(nucypher.__version__)"
+      - python -m pytest tests/unit
+      - python -m pytest tests/integration
+      - python -m pytest agents
+      - python -m pytest actors
+      - python -m pytest conditions
+      - python -m pytest characters
+      - python -m pytest cli
+      
   - name: Check Python Entrypoint
     commands:
       - python -c "import nucypher; print(nucypher.__version__)"
