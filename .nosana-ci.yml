@@ -41,7 +41,7 @@ jobs:
   - name: Agents Tests (Coverage)
     work-dir: ./tests/acceptance
     commands: 
-      - export PYTHONPATH=./packages
+      - export PYTHONPATH=/nosana-ci/packages
       - cd ./tests/acceptance
       - ls
       - python -m coverage run --data-file=acceptance_agent_data -m pytest agents
