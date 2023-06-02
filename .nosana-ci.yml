@@ -39,7 +39,7 @@ jobs:
       ## - name: packages
       
   - name: Agents Tests (Coverage)
-    workdir: ./tests/acceptance
+    work-dir: ./tests/acceptance
     commands: 
       - export PYTHONPATH=./packages
       - ls
@@ -49,7 +49,7 @@ jobs:
       - name: packages
       
   - name: Actors Tests (Coverage)
-    workdir: ./tests/acceptance
+    work-dir: ./tests/acceptance
     commands: 
       - export PYTHONPATH=./packages
       - python -m coverage run --data-file=acceptance_actors_data -m pytest actors
@@ -58,7 +58,7 @@ jobs:
       - name: packages
 
   - name: Conditions Tests (Coverage)
-    workdir: ./tests/acceptance
+    work-dir: ./tests/acceptance
     commands: 
       - export PYTHONPATH=./packages
       - python -m coverage run --data-file=acceptance_conditions_data -m pytest conditions
@@ -67,7 +67,7 @@ jobs:
       - name: packages
 
   - name: Characters Tests (Coverage)
-    workdir: ./tests/acceptance
+    work-dir: ./tests/acceptance
     commands: 
       - export PYTHONPATH=./packages
       - python -m coverage run --data-file=acceptance_characters_data -m pytest characters
@@ -76,7 +76,7 @@ jobs:
       - name: packages
       
   - name: CLI Tests (Coverage)
-    workdir: ./tests/acceptance
+    work-dir: ./tests/acceptance
     commands: 
       - export PYTHONPATH=./packages
       - python -m coverage run --data-file=acceptance_cli_data -m pytest cli
