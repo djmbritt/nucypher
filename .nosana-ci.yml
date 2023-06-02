@@ -12,17 +12,11 @@ jobs:
       - . "$HOME/.cargo/env"
       - pip install .[dev]
       - python -m coverage run --data-file=unit_data -m pytest tests/unit
-    artifacts:
-      - name: site-packages
   - name: Check Python Entrypoint
     commands:
       - python -c "import nucypher; print(nucypher.__version__)"
-    resources:
-      - name: site-packages
   - name: Unit Tests (Coverage)
     commands: 
       - python -m pytest tests/integration
       - python -m coverage run --data-file=unit_data -m pytest tests/unit
       - python -m coverage xml -i --data-file=unit_data -o unit-coverage.xml
-    resources:
-      - name: site-packages
