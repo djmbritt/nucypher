@@ -21,7 +21,7 @@ jobs:
       - name: site-packages
   - name: Unit Tests (Coverage)
     commands: 
-      - coverage run --data-file=unit_data -m pytest tests/unit
-      - coverage xml -i --data-file=unit_data -o unit-coverage.xml
+      - python -m coverage run --data-file=unit_data -m pytest tests/unit
+      - python -m coverage xml -i --data-file=unit_data -o unit-coverage.xml
     resources:
       - name: site-packages
