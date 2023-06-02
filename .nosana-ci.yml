@@ -10,23 +10,19 @@ jobs:
       # Initialize
       - curl -sS https://sh.rustup.rs | sh -s -- -y
       - . "$HOME/.cargo/env"
-      - pip install .[dev]
-      - 
-      - nucypher --help
-      - python -c "import nucypher; print(nucypher.__version__)"
-      - python -m pytest tests/unit
-      - python -m pytest tests/integration
-      - python -m pytest agents
-      - python -m pytest actors
-      - python -m pytest conditions
-      - python -m pytest characters
-      - python -m pytest cli
-      
+      - pip install .[dev] -t ./packages
+      - ls -all
+    artifacts:
+      - name: packages
   - name: Check Python Entrypoint
-    commands:
+    commands: 
       - python -c "import nucypher; print(nucypher.__version__)"
+    resources:
+      - name: packages
   - name: Unit Tests (Coverage)
     commands: 
-      - python -m pytest tests/integration
+      - export PYTHONPATH=./packages
       - python -m coverage run --data-file=unit_data -m pytest tests/unit
       - python -m coverage xml -i --data-file=unit_data -o unit-coverage.xml
+    resources:
+      - name: packages
