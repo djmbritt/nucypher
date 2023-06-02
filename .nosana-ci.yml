@@ -11,11 +11,11 @@ jobs:
       - curl -sS https://sh.rustup.rs | sh -s -- -y
       - . "$HOME/.cargo/env"
       - pip install .[dev] -t ./site-packages
-      - ls -all
+      - python -m pytest tests/integration
     artifacts:
       - name: site-packages
   - name: Check Python Entrypoint
-    commands: 
+    commands:
       - python -c "import nucypher; print(nucypher.__version__)"
     resources:
       - name: site-packages
