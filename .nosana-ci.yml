@@ -14,15 +14,40 @@ jobs:
       - ls -all
     artifacts:
       - name: packages
+  - name: Check CLI Entrypoint
+    commands: 
+      - export PYTHONPATH=./packages
+      - nucypher --help
+    resources:
+      - name: packages
+
   - name: Check Python Entrypoint
     commands: 
       - python -c "import nucypher; print(nucypher.__version__)"
     resources:
       - name: packages
+  
+  ## Tests
   - name: Unit Tests (Coverage)
     commands: 
       - export PYTHONPATH=./packages
-      - python -m coverage run --data-file=unit_data -m pytest tests/unit
-      - python -m coverage xml -i --data-file=unit_data -o unit-coverage.xml
+      - coverage run --data-file=unit_data -m pytest tests/unit
+      - coverage xml -i --data-file=unit_data -o unit-coverage.xml
+    resources:
+      - name: packages
+
+  - name: Integration Tests (Coverage)
+    commands: 
+      - export PYTHONPATH=./packages
+      - coverage run --data-file=integration_data -m pytest tests/integration
+      - coverage xml -i --data-file=integration_data -o integration-coverage.xml
+    resources:
+      - name: packages
+      
+  - name: Agents Tests (Coverage)
+    commands: 
+      - export PYTHONPATH=./packages
+      - coverage run --data-file=acceptance_agent_data -m pytest agents
+      - coverage xml -i --data-file=acceptance_agent_data -o acceptance-agents-coverage.xml
     resources:
       - name: packages
