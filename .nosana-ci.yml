@@ -25,23 +25,23 @@ jobs:
   - name: Unit Tests (Coverage)
     commands: 
       - export PYTHONPATH=./packages
-      - coverage run --data-file=unit_data -m pytest tests/unit
-      - coverage xml -i --data-file=unit_data -o unit-coverage.xml
+      - python -m coverage run --data-file=unit_data -m pytest tests/unit
+      - python -m coverage xml -i --data-file=unit_data -o unit-coverage.xml
     resources:
       - name: packages
 
   - name: Integration Tests (Coverage)
     commands: 
       - export PYTHONPATH=./packages
-      - coverage run --data-file=integration_data -m pytest tests/integration
-      - coverage xml -i --data-file=integration_data -o integration-coverage.xml
+      - python -m coverage run --data-file=integration_data -m pytest tests/integration
+      - python -m coverage xml -i --data-file=integration_data -o integration-coverage.xml
     resources:
       - name: packages
       
   - name: Agents Tests (Coverage)
     commands: 
       - export PYTHONPATH=./packages
-      - coverage run --data-file=acceptance_agent_data -m pytest agents
-      - coverage xml -i --data-file=acceptance_agent_data -o acceptance-agents-coverage.xml
+      - python -m coverage run --data-file=acceptance_agent_data -m pytest agents
+      - python -m coverage xml -i --data-file=acceptance_agent_data -o acceptance-agents-coverage.xml
     resources:
       - name: packages
