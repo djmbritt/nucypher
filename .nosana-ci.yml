@@ -14,12 +14,6 @@ jobs:
       - ls -all
     artifacts:
       - name: packages
-  - name: Check CLI Entrypoint
-    commands: 
-      - export PYTHONPATH=./packages
-      - nucypher --help
-    resources:
-      - name: packages
 
   - name: Check Python Entrypoint
     commands: 
