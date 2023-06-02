@@ -14,14 +14,14 @@ jobs:
       - ls -all
     artifacts:
       - name: site-packages
-
-  - name: Check CLI Entrypoint
-    commands:
-      - nucypher --help
-    resources:
-      - name: site-packages
   - name: Check Python Entrypoint
     commands: 
       - python -c "import nucypher; print(nucypher.__version__)"
+    resources:
+      - name: site-packages
+  - name: Unit Tests (Coverage)
+    commands: 
+      - coverage run --data-file=unit_data -m pytest tests/unit
+      - coverage xml -i --data-file=unit_data -o unit-coverage.xml
     resources:
       - name: site-packages
