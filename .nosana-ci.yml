@@ -10,7 +10,7 @@ jobs:
       # Initialize
       - curl -sS https://sh.rustup.rs | sh -s -- -y
       - . "$HOME/.cargo/env"
-      - pip install .[dev] -t ./site-packages
+      - pip install .[dev]
       - python -m coverage run --data-file=unit_data -m pytest tests/unit
     artifacts:
       - name: site-packages
