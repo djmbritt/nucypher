@@ -9,6 +9,7 @@ jobs:
     work-dir: tests/acceptance
     commands: 
       - ls
+      - pwd
   ##- name: Install dependencies
   ##  commands:
       # Initialize
