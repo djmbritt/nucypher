@@ -10,21 +10,21 @@ jobs:
     commands: 
       - ls
       - pwd
-  ##- name: Install dependencies
-  ##  commands:
+  - name: Install dependencies
+    commands:
       # Initialize
-   ##   - curl -sS https://sh.rustup.rs | sh -s -- -y
-     ## - . "$HOME/.cargo/env"
-     ## - pip install .[dev] -t ./packages
-      ##- ls -all
-    ##artifacts:
-     ## - name: packages
+      - curl -sS https://sh.rustup.rs | sh -s -- -y
+      - . "$HOME/.cargo/env"
+      - pip install .[dev] -t ./packages
+      - ls -all
+    artifacts:
+      - name: packages
 
-##  - name: Check Python Entrypoint
-  ##  commands: 
-    ##  - python -c "import nucypher; print(nucypher.__version__)"
-##    resources:
-  ##    - name: packages
+  - name: Check Python Entrypoint
+    commands: 
+      - python -c "import nucypher; print(nucypher.__version__)"
+    resources:
+      - name: packages
   
   ## Tests
   ## - name: Unit Tests (Coverage)
@@ -42,5 +42,49 @@ jobs:
 ##       - python -m coverage xml -i --data-file=integration_data -o integration-coverage.xml
    ##  resources:
       ## - name: packages
+  - name: Agents Tests (Coverage)
+    commands: 
+      - export PYTHONPATH=./packages
+      - cd ./tests/acceptance
+      - ls
+      - python -m coverage run --data-file=acceptance_agent_data -m pytest agents
+      - python -m coverage xml -i --data-file=acceptance_agent_data -o acceptance-agents-coverage.xml
+    resources:
+      - name: packages
       
+  - name: Actors Tests (Coverage)
+    work-dir: ./tests/acceptance
+    commands: 
+      - export PYTHONPATH=./packages
+      - python -m coverage run --data-file=acceptance_actors_data -m pytest actors
+      - python -m coverage xml -i --data-file=acceptance_actors_data -o acceptance-actors-coverage.xml
+    resources:
+      - name: packages
+
+  - name: Conditions Tests (Coverage)
+    work-dir: ./tests/acceptance
+    commands: 
+      - export PYTHONPATH=./packages
+      - python -m coverage run --data-file=acceptance_conditions_data -m pytest conditions
+      - python -m coverage xml -i --data-file=acceptance_conditions_data -o acceptance-conditions-coverage.xml
+    resources:
+      - name: packages
+
+  - name: Characters Tests (Coverage)
+    work-dir: ./tests/acceptance
+    commands: 
+      - export PYTHONPATH=./packages
+      - python -m coverage run --data-file=acceptance_characters_data -m pytest characters
+      - python -m coverage xml -i --data-file=acceptance_characters_data -o acceptance-characters-coverage.xml
+    resources:
+      - name: packages
+      
+  - name: CLI Tests (Coverage)
+    work-dir: ./tests/acceptance
+    commands: 
+      - export PYTHONPATH=./packages
+      - python -m coverage run --data-file=acceptance_cli_data -m pytest cli
+      - python -m coverage xml -i --data-file=acceptance_cli_data -o acceptance-cli-coverage.xml
+    resources:
+      - name: packages   
  
