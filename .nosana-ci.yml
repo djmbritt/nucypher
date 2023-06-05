@@ -38,11 +38,10 @@ jobs:
    ##  resources:
       ## - name: packages
   - name: Agents Tests (Coverage)
-    commands: 
+    commands:
       # - export PYTHONPATH=./packages
       - cd ./tests/acceptance
       - export PYTHONPATH=../../packages
-      - ls
       - python -m coverage run --data-file=acceptance_agent_data -m pytest agents
       - python -m coverage xml -i --data-file=acceptance_agent_data -o acceptance-agents-coverage.xml
     resources:
@@ -52,7 +51,7 @@ jobs:
     commands:
       - curl -Os https://uploader.codecov.io/latest/linux/codecov
       - chmod +x codecov
-      - ./codecov
+      - ./codecov -t $CODECOV_TOKEN
     resources:
       - name: packages   
       
