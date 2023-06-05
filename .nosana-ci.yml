@@ -42,9 +42,9 @@ jobs:
     work-dir: ./tests/acceptance
     commands: 
       - export PYTHONPATH=./packages
-      - ls /nosana-ci/packages
+      - ls ../../packages
       - cd ./tests/acceptance
-      - export PYTHONPATH=/nosana-ci/packages
+      - export PYTHONPATH=../../packages
       - ls
       - python -m coverage run --data-file=acceptance_agent_data -m pytest agents
       - python -m coverage xml -i --data-file=acceptance_agent_data -o acceptance-agents-coverage.xml
