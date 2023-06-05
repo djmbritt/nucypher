@@ -42,8 +42,8 @@ jobs:
     work-dir: ./tests/acceptance
     commands: 
       - export PYTHONPATH=./packages
-      - ls ../../packages
       - cd ./tests/acceptance
+      - ls ../../packages
       - export PYTHONPATH=../../packages
       - ls
       - python -m coverage run --data-file=acceptance_agent_data -m pytest agents
