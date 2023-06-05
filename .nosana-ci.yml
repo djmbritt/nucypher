@@ -3,6 +3,10 @@ nosana:
 
 global:
   image: python:3.10
+  trigger:
+    push:
+      branches:
+        - development
 
 jobs:
   - name: Install dependencies
