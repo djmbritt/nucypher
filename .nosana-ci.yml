@@ -22,24 +22,24 @@ jobs:
       - name: packages
   
   ## Tests
-  ## - name: Unit Tests (Coverage)
-  ##   commands: 
-     ##  - export PYTHONPATH=./packages
-##       - python -m coverage run --data-file=unit_data -m pytest tests/unit
-  ##     - python -m coverage xml -i --data-file=unit_data -o unit-coverage.xml
-##     resources:
-   ##    - name: packages
+  - name: Unit Tests (Coverage)
+    commands: 
+       - export PYTHONPATH=./packages
+       - python -m coverage run --data-file=unit_data -m pytest tests/unit
+       - python -m coverage xml -i --data-file=unit_data -o unit-coverage.xml
+    resources:
+       - name: packages
 
-##   - name: Integration Tests (Coverage)
-   ##  commands: 
-      ## - export PYTHONPATH=./packages
-##       - python -m coverage run --data-file=integration_data -m pytest tests/integration
-##       - python -m coverage xml -i --data-file=integration_data -o integration-coverage.xml
-   ##  resources:
-      ## - name: packages
+  - name: Integration Tests (Coverage)
+    commands: 
+      - export PYTHONPATH=./packages
+      - python -m coverage run --data-file=integration_data -m pytest tests/integration
+      - python -m coverage xml -i --data-file=integration_data -o integration-coverage.xml
+    resources:
+      - name: packages
+
   - name: Agents Tests (Coverage)
     commands:
-      # - export PYTHONPATH=./packages
       - cd ./tests/acceptance
       - export PYTHONPATH=../../packages
       - python -m coverage run --data-file=acceptance_agent_data -m pytest agents
@@ -47,15 +47,37 @@ jobs:
     resources:
       - name: packages
            
-  - name: Upload to Codecov
+  ## Upload coverage to codecov
+  - name: Upload unit tests coverage to Codecov
     secrets:
       - CODECOV_TOKEN
     commands:
       - curl -Os https://uploader.codecov.io/latest/linux/codecov
       - chmod +x codecov
       - echo $CODECOV_TOKEN
-      - ./codecov -t $CODECOV_TOKEN
+      - ./codecov -t $CODECOV_TOKEN -Z -v -F unit -f unit-coverage.xml
     resources:
-      - name: packages   
-      
+      - name: packages
+
+  - name: Upload integration tests coverage to Codecov
+    secrets:
+      - CODECOV_TOKEN
+    commands:
+      - curl -Os https://uploader.codecov.io/latest/linux/codecov
+      - chmod +x codecov
+      - echo $CODECOV_TOKEN
+      - ./codecov -t $CODECOV_TOKEN -Z -v -F integration -f integration-coverage.xml 
+    resources:
+      - name: packages 
+       
+  - name: Upload acceptance tests coverage to Codecov
+    secrets:
+      - CODECOV_TOKEN
+    commands:
+      - curl -Os https://uploader.codecov.io/latest/linux/codecov
+      - chmod +x codecov
+      - echo $CODECOV_TOKEN
+      - ./codecov -t $CODECOV_TOKEN -Z -v -F acceptance -f acceptance-agents-coverage.xml -f acceptance-actors-coverage.xml -f acceptance-conditions-coverage.xml -f acceptance-characters-coverage.xml -f acceptance-cli-coverage.xml -s tests/acceptance 
+    resources:
+      - name: packages 
   
