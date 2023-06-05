@@ -5,11 +5,6 @@ global:
   image: python:3.10
 
 jobs:
-  - name: Workdir test
-    work-dir: tests/acceptance
-    commands: 
-      - ls
-      - pwd
   - name: Install dependencies
     commands:
       # Initialize
