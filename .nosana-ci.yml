@@ -21,7 +21,7 @@ jobs:
     resources:
       - name: packages
   
-  ## Tests
+  ## Unit tests
   - name: Unit Tests (Coverage)
     commands: 
        - export PYTHONPATH=./packages
@@ -32,11 +32,73 @@ jobs:
     artifacts:
       - name: reports
 
+  ## Integration tests
   - name: Integration Tests (Coverage)
     commands:
       - export PYTHONPATH=./packages
       - python -m coverage run --data-file=integration_data -m pytest tests/integration
       - python -m coverage xml -i --data-file=integration_data -o reports/integration-coverage.xml
+    resources:
+      - name: packages
+      - name: reports
+    artifacts:
+      - name: reports
+  
+  ## Acceptance tests
+  - name: Agents Tests (Coverage)
+    commands: 
+      - cd ./tests/acceptance
+      - export PYTHONPATH=../../packages
+      - python -m coverage run --data-file=acceptance_agent_data -m pytest agents
+      - python -m coverage xml -i --data-file=acceptance_agent_data -o ../../reports/acceptance-agents-coverage.xml
+    resources:
+      - name: packages
+      - name: reports
+    artifacts:
+      - name: reports
+      
+  - name: Actors Tests (Coverage)
+    commands: 
+      - cd ./tests/acceptance
+      - export PYTHONPATH=../../packages
+      - python -m coverage run --data-file=acceptance_actors_data -m pytest actors
+      - python -m coverage xml -i --data-file=acceptance_actors_data -o ../../reports/acceptance-actors-coverage.xml
+    resources:
+      - name: packages
+      - name: reports
+    artifacts:
+      - name: reports
+
+  - name: Conditions Tests (Coverage)
+    commands: 
+      - cd ./tests/acceptance
+      - export PYTHONPATH=../../packages
+      - python -m coverage run --data-file=acceptance_conditions_data -m pytest conditions
+      - python -m coverage xml -i --data-file=acceptance_conditions_data -o ../../reports/acceptance-conditions-coverage.xml
+    resources:
+      - name: packages
+      - name: reports
+    artifacts:
+      - name: reports
+
+  - name: Characters Tests (Coverage)
+    commands: 
+      - cd ./tests/acceptance
+      - export PYTHONPATH=../../packages
+      - python -m coverage run --data-file=acceptance_characters_data -m pytest characters
+      - python -m coverage xml -i --data-file=acceptance_characters_data -o ../../reports/acceptance-characters-coverage.xml
+    resources:
+      - name: packages
+      - name: reports
+    artifacts:
+      - name: reports
+      
+  - name: CLI Tests (Coverage)
+    commands: 
+      - cd ./tests/acceptance
+      - export PYTHONPATH=../../packages
+      - python -m coverage run --data-file=acceptance_cli_data -m pytest cli
+      - python -m coverage xml -i --data-file=acceptance_cli_data -o ../../reports/acceptance-cli-coverage.xml
     resources:
       - name: packages
       - name: reports
@@ -65,6 +127,18 @@ jobs:
       - chmod +x codecov
       - echo $CODECOV_TOKEN
       - ./codecov -t $CODECOV_TOKEN -Z -v -F integration -f reports/integration-coverage.xml 
+    resources:
+      - name: packages
+      - name: reports
+      
+  - name: Upload acceptance tests coverage to Codecov
+    secrets:
+      - CODECOV_TOKEN
+    commands:
+      - curl -Os https://uploader.codecov.io/latest/linux/codecov
+      - chmod +x codecov
+      - echo $CODECOV_TOKEN
+      - ./codecov -t $CODECOV_TOKEN -Z -v -F integration -f reports/acceptance-agents-coverage.xml -f reports/acceptance-actors-coverage.xml -f reports/acceptance-conditions-coverage.xml -f reports/acceptance-characters-coverage.xml -f reports/acceptance-cli-coverage.xml -F acceptance
     resources:
       - name: packages 
       - name: reports
