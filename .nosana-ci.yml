@@ -48,11 +48,13 @@ jobs:
       - name: packages
            
   - name: Upload to Codecov
+    secrets:
+      - CODECOV_TOKEN
     commands:
       - curl -Os https://uploader.codecov.io/latest/linux/codecov
       - chmod +x codecov
-      - echo $CODECOV
-      - ./codecov -t $CODECOV
+      - echo $CODECOV_TOKEN
+      - ./codecov -t $CODECOV_TOKEN
     resources:
       - name: packages   
       
