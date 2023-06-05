@@ -51,6 +51,7 @@ jobs:
     commands:
       - curl -Os https://uploader.codecov.io/latest/linux/codecov
       - chmod +x codecov
+      - echo $CODECOV_TOKEN
       - ./codecov -t $CODECOV_TOKEN
     resources:
       - name: packages   
