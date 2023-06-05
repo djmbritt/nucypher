@@ -6,7 +6,7 @@ global:
 
 jobs:
   - name: Workdir test
-    work-dir: /tests/acceptance
+    work-dir: tests/acceptance
     commands: 
       - ls
   ##- name: Install dependencies
