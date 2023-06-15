@@ -1,6 +1,3 @@
-nosana:
-  description: Python Tests
-
 global:
   image: python:3.10
   trigger:
